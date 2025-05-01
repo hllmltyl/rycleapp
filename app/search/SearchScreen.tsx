@@ -1,47 +1,66 @@
 // app/search/SearchScreen.tsx
 
+import { wasteCategories } from '@/data/wastes';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-
-// Atık verisini burada tanımlıyoruz
-const wasteItems = [
-  { id: '1', name: 'Plastik Şişe', category: 'Plastik' },
-  { id: '2', name: 'Cam Şişe', category: 'Cam' },
-  { id: '3', name: 'Defter', category: 'Kağıt' },
-];
 
 export default function SearchScreen() {
   const [searchText, setSearchText] = useState('');
   const router = useRouter();
 
+  // Tüm atıkları birleştiriyoruz
+  const allWastes = wasteCategories.flatMap(category => 
+    category.wastes.map(waste => ({
+      ...waste,
+      categoryName: category.name
+    }))
+  );
+
   // Arama metnine göre filtreleme yapıyoruz
-  const filteredItems = wasteItems.filter(item => 
-    item.name.toLowerCase().includes(searchText.toLowerCase())
+  const filteredItems = allWastes.filter(item => 
+    item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+    item.categoryName.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
     <View style={styles.container}>
+      {/* Arama çubuğu */}
       <TextInput
         style={styles.searchBar}
-        placeholder="Atık arayın..."
+        placeholder="Atık veya kategori ara..."
+        placeholderTextColor="#888"
         value={searchText}
         onChangeText={setSearchText}
+        autoFocus={true}
       />
       
-      <Text style={styles.header}>Arama Sonuçları</Text>
+      {/* Sonuç başlığı */}
+      <Text style={styles.header}>
+        {searchText ? `"${searchText}" için sonuçlar` : "Tüm Atıklar"}
+      </Text>
+      
+      {/* Sonuç listesi */}
       <FlatList
         data={filteredItems}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => router.push(`/wasteDetail/${item.id}`)} // Detay sayfasına yönlendirme
+            onPress={() => router.push(`/wastedetail/${item.id}`)}
           >
-            <Text style={styles.name}>{item.name}</Text>
+            {/* Atık resmi için placeholder */}
+            <View style={styles.wasteImagePlaceholder} />
+            <View style={styles.wasteInfo}>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.category}>{item.categoryName}</Text>
+            </View>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.list}
+        ListEmptyComponent={
+          <Text style={styles.noResults}>Sonuç bulunamadı</Text>
+        }
       />
     </View>
   );
@@ -55,32 +74,56 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   searchBar: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingLeft: 8,
+    height: 50,
+    borderColor: '#a5d6a7',
+    borderWidth: 2,
+    borderRadius: 10,
+    paddingLeft: 15,
     marginBottom: 20,
     backgroundColor: '#fff',
+    fontSize: 16,
   },
   header: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 15,
     color: '#2e7d32',
   },
   list: {
-    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
   card: {
     backgroundColor: '#c8e6c9',
     borderRadius: 10,
-    padding: 16,
+    padding: 12,
     marginBottom: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  wasteImagePlaceholder: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#a5d6a7',
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  wasteInfo: {
+    flex: 1,
   },
   name: {
     fontSize: 16,
     fontWeight: '500',
     color: '#1b5e20',
+    marginBottom: 4,
+  },
+  category: {
+    fontSize: 14,
+    color: '#388e3c',
+  },
+  noResults: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#888',
+    marginTop: 20,
   },
 });

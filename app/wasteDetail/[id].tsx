@@ -1,41 +1,28 @@
 // app/wasteDetail/[id].tsx
 
+import { wasteCategories } from '@/data/wastes';
 import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-// Örnek atık verileri
-const wasteItems = [
-  {
-    id: '1',
-    name: 'Plastik Şişe',
-    category: 'Plastik',
-    description: 'Plastik şişeler, geri dönüşümle tekrar kullanılabilir.',
-    recyclingInfo: 'Plastik şişeler %100 geri dönüştürülebilir.',
-  },
-  {
-    id: '2',
-    name: 'Cam Şişe',
-    category: 'Cam',
-    description: 'Cam şişeler, geri dönüşümle tekrar kullanılabilir.',
-    recyclingInfo: 'Cam %100 geri dönüştürülebilir.',
-  },
-  {
-    id: '3',
-    name: 'Defter',
-    category: 'Kağıt',
-    description: 'Kağıt defterler geri dönüşümle yeniden kağıt üretilebilir.',
-    recyclingInfo: 'Kağıt geri dönüştürülerek tekrar kullanılabilir.',
-  },
-];
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function WasteDetailScreen() {
-  // URL parametrelerinden atık id'sini alıyoruz
+  // URL'den atık ID'sini alıyoruz
   const { id } = useLocalSearchParams();
 
-  // Atık verilerini id'ye göre filtrele
-  const selectedWaste = wasteItems.find(item => item.id === id);
+  // Tüm atıkları birleştirip ilgili atığı buluyoruz
+  let selectedWaste = null;
+  let categoryName = '';
+  
+  for (const category of wasteCategories) {
+    const found = category.wastes.find(item => item.id === id);
+    if (found) {
+      selectedWaste = found;
+      categoryName = category.name;
+      break;
+    }
+  }
 
+  // Atık bulunamazsa hata mesajı göster
   if (!selectedWaste) {
     return (
       <View style={styles.container}>
@@ -45,11 +32,34 @@ export default function WasteDetailScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      {/* Atık adı */}
       <Text style={styles.header}>{selectedWaste.name}</Text>
-      <Text style={styles.description}>{selectedWaste.description}</Text>
-      <Text style={styles.recyclingInfo}>{selectedWaste.recyclingInfo}</Text>
-    </View>
+      
+      {/* Kategori bilgisi */}
+      <Text style={styles.category}>Kategori: {categoryName}</Text>
+      
+      {/* Atık resmi için placeholder */}
+      <View style={styles.imagePlaceholder} />
+      
+      {/* Atık açıklaması */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Bu Atık Nedir?</Text>
+        <Text style={styles.sectionContent}>{selectedWaste.description}</Text>
+      </View>
+      
+      {/* Geri dönüşüm bilgileri */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Nasıl Geri Dönüştürülür?</Text>
+        <Text style={styles.sectionContent}>{selectedWaste.recycleInfo}</Text>
+      </View>
+      
+      {/* Çevresel etki */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Çevresel Etkisi</Text>
+        <Text style={styles.sectionContent}>{selectedWaste.environmentalImpact}</Text>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -57,23 +67,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8f5e9',
-    paddingTop: 50,
+    paddingTop: 30,
     paddingHorizontal: 16,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 8,
     color: '#2e7d32',
   },
-  description: {
-    fontSize: 18,
-    marginBottom: 10,
-    color: '#1b5e20',
-  },
-  recyclingInfo: {
+  category: {
     fontSize: 16,
-    color: '#388e3c',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#4b4b4b',
+  },
+  imagePlaceholder: {
+    width: '100%',
+    height: 200,
+    backgroundColor: '#a5d6a7',
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#1b5e20',
+    marginBottom: 8,
+  },
+  sectionContent: {
+    fontSize: 16,
+    color: '#4b4b4b',
+    lineHeight: 22,
   },
 });
