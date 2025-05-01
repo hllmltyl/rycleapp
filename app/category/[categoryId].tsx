@@ -1,19 +1,27 @@
-// app/category/[categoryId].tsx
-
 import { wasteCategories } from '@/data/wastes';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+// Bu satırı ekliyoruz - başlık ayarı için
+import { useNavigation } from 'expo-router';
+import { useEffect } from 'react';
+
 export default function CategoryDetailScreen() {
-  // URL'den kategori ID'sini alıyoruz
   const { categoryId } = useLocalSearchParams();
   const router = useRouter();
+  const navigation = useNavigation(); // Navigation hook'unu ekliyoruz
 
-  // Kategoriyi veri kaynağından buluyoruz
+  // Kategori nesnesini bul
   const category = wasteCategories.find(cat => cat.id === categoryId);
 
-  // Kategori bulunamazsa hata mesajı göster
+  // Başlığı güncellemek için useEffect ekliyoruz
+  useEffect(() => {
+    if (category) {
+      navigation.setOptions({ title: category.name });
+    }
+  }, [category]);
+
   if (!category) {
     return (
       <View style={styles.container}>
@@ -24,13 +32,9 @@ export default function CategoryDetailScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Kategori başlığı */}
-      <Text style={styles.header}>{category.name} Atıkları</Text>
-      
-      {/* Kategori açıklaması */}
+      {/* Eski başlık satırını siliyoruz - artık navigation header'da gözükecek */}
       <Text style={styles.description}>{category.description}</Text>
 
-      {/* Kategoriye ait atık listesi */}
       <FlatList
         data={category.wastes}
         keyExtractor={(item) => item.id}
@@ -39,14 +43,7 @@ export default function CategoryDetailScreen() {
             style={styles.card}
             onPress={() => router.push(`/wastedetail/${item.id}`)}
           >
-            {/* Atık resmi için placeholder */}
-            <View style={styles.wasteImagePlaceholder} />
-            <View style={styles.wasteInfo}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.recycleInfo} numberOfLines={1}>
-                {item.recycleInfo}
-              </Text>
-            </View>
+            <Text style={styles.name}>{item.name}</Text>
           </TouchableOpacity>
         )}
         contentContainerStyle={styles.list}
