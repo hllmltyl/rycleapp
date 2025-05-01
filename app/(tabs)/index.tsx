@@ -1,75 +1,116 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// app/index.tsx
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function HomeScreen() {
+// Atık verisini ve kategorileri ekliyoruz
+const wasteItems = [
+  { id: '1', name: 'Plastik Şişe', category: 'Plastik' },
+  { id: '2', name: 'Cam Şişe', category: 'Cam' },
+  { id: '3', name: 'Defter', category: 'Kağıt' },
+];
+
+const categories = ['Plastik', 'Cam', 'Kağıt'];
+
+export default function Index() {
+  const router = useRouter();
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hoşgeldiniz!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.searchButton}
+        onPress={() => router.push('/search/SearchScreen')} // SearchScreen sayfasına yönlendir
+      >
+        <Text style={styles.searchButtonText}>Arama Yap</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.header}>Kategoriler</Text>
+      <FlatList
+        horizontal
+        data={categories}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.categoryCard}
+            onPress={() => router.push(`/category/${item}`)}
+          >
+            <Text style={styles.categoryText}>{item}</Text>
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={styles.categoryList}
+      />
+
+      <Text style={styles.header}>Atıklar</Text>
+      <FlatList
+        data={wasteItems}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() => router.push(`/wasteDetail/${item.id}`)} // Detay sayfasına yönlendirme
+          >
+            <Text style={styles.name}>{item.name}</Text>
+          </TouchableOpacity>
+        )}
+        contentContainerStyle={styles.list}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: '#e8f5e9',
+    paddingTop: 50,
+    paddingHorizontal: 16,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  header: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#2e7d32',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  categoryList: {
+    paddingVertical: 10,
+  },
+  categoryCard: {
+    backgroundColor: '#c8e6c9',
+    borderRadius: 10,
+    padding: 16,
+    marginRight: 10,
+  },
+  categoryText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1b5e20',
+  },
+  searchButton: {
+    backgroundColor: '#2e7d32',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    marginBottom: 20,
+  },
+  searchButtonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+  },
+  list: {
+    paddingHorizontal: 16,
+  },
+  card: {
+    backgroundColor: '#c8e6c9',
+    borderRadius: 10,
+    padding: 16,
+    marginBottom: 12,
+  },
+  name: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#1b5e20',
   },
 });
