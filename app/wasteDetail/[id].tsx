@@ -81,50 +81,52 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8f5e9',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 50, // Yüksekliği artırarak üst boşluk bırakır
+    paddingHorizontal: 16, // Yatay iç boşluk
   },
   contentContainer: {
     padding: 16,
     paddingBottom: 30,
   },
   category: {
-    fontSize: 16,
+    fontSize: 18, // Başlık boyutu arttırıldı
     textAlign: 'center',
     marginBottom: 20,
-    color: '#4b4b4b',
-    fontWeight: '500',
+    color: '#2e7d32', // Yeşil tonları kullanılarak kategori rengi belirli
+    fontWeight: '500', // Yarı kalın yazı tipi
   },
   imagePlaceholder: {
     width: '100%',
     height: 200,
-    backgroundColor: '#c8e6c9',
+    backgroundColor: '#a5d6a7', // Kategori rengi ile uyumlu yeşil
     borderRadius: 10,
     marginBottom: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   imagePlaceholderText: {
-    color: '#2e7d32',
+    color: '#2e7d32', // Yeşil metin rengi
     fontSize: 16,
   },
   section: {
     marginBottom: 25,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#1b5e20',
+    fontSize: 18, // Başlık font boyutu
+    fontWeight: 'bold', // Kalın başlık yazısı
+    color: '#1b5e20', // Koyu yeşil
     marginBottom: 10,
   },
   sectionContent: {
     fontSize: 16,
     color: '#333',
-    lineHeight: 24,
+    lineHeight: 24, // Okunabilirlik için satır yüksekliği
   },
   header: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#c62828',
+    color: '#c62828', // Kırmızı tonları, hata veya uyarı için
     marginTop: 40,
   },
 });

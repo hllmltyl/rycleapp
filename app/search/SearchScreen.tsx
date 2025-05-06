@@ -1,26 +1,18 @@
-// Geri dönüşüm kategorilerini içeren verileri içe aktarır
-import { wasteCategories } from '@/data/wastes';
-
-// Sayfalar arası yönlendirme için kullanılan hook'u içe aktarır
+import { wasteCategories } from '@/data/wastes'; // Geri dönüşüm kategorilerini içeren verileri içe aktarır
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
-
-// React Native bileşenlerini içe aktarır
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 // Ana bileşen: Arama ekranı
 export default function SearchScreen() {
-  // Arama metnini yönetmek için state kullanır
-  const [searchText, setSearchText] = useState('');
-  
-  // Sayfalar arası yönlendirme için router hook'u
-  const router = useRouter();
+  const [searchText, setSearchText] = useState(''); // Arama metnini yönetmek için state kullanır
+  const router = useRouter(); // Sayfalar arası yönlendirme için router hook'u
 
   // Kategorilere ait tüm atıkları birleştirir ve her bir atığa kategori adını ekler
   const allWastes = wasteCategories.flatMap(category => 
     category.wastes.map(waste => ({
       ...waste,
-      categoryName: category.name // Kategori ismini atıkla birleştirir
+      categoryName: category.name, // Kategori ismini atıkla birleştirir
     }))
   );
 
@@ -41,13 +33,12 @@ export default function SearchScreen() {
         onChangeText={setSearchText} // Metin değiştiğinde arama metnini günceller
         autoFocus={true} // Arama çubuğuna odaklanmayı otomatikleştirir
       />
-      
+
       {/* Sonuç başlığı */}
       <Text style={styles.header}>
-        {searchText ? `"${searchText}" için sonuçlar` : "Tüm Atıklar"} 
-        {/* Arama metni varsa arama başlığını gösterir, yoksa "Tüm Atıklar" gösterir */}
+        {searchText ? `"${searchText}" için sonuçlar` : "Tüm Atıklar"}
       </Text>
-      
+
       {/* Sonuç listesi */}
       <FlatList
         data={filteredItems} // Filtrelenmiş atıklar
@@ -57,11 +48,13 @@ export default function SearchScreen() {
             style={styles.card} // Kart görünümü
             onPress={() => router.push(`/wastedetail/${item.id}`)} // Tıklanınca atık detayına gider
           >
-            {/* Atık resmi için placeholder */}
-            <View style={styles.wasteImagePlaceholder} />
-            <View style={styles.wasteInfo}>
-              <Text style={styles.name}>{item.name}</Text> {/* Atık adı */}
-              <Text style={styles.category}>{item.categoryName}</Text> {/* Kategori adı */}
+            <View style={styles.cardContent}>
+              {/* Atık resmi için placeholder */}
+              <View style={styles.wasteImagePlaceholder} />
+              <View style={styles.wasteInfo}>
+                <Text style={styles.name}>{item.name}</Text> {/* Atık adı */}
+                <Text style={styles.category}>{item.categoryName}</Text> {/* Kategori adı */}
+              </View>
             </View>
           </TouchableOpacity>
         )}
@@ -78,13 +71,13 @@ export default function SearchScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Sayfayı tamamen kaplasın
-    backgroundColor: '#e8f5e9', // Açık yeşil arka plan
-    paddingTop: 50, // Yukarıdan boşluk
+    backgroundColor: '#f1f8e9', // Daha açık yeşil arka plan
+    paddingTop: 40, // Yukarıdan boşluk
     paddingHorizontal: 16, // Yatayda iç boşluk
   },
   searchBar: {
     height: 50, // Yükseklik
-    borderColor: '#a5d6a7', // Kenar rengi
+    borderColor: '#81c784', // Kenar rengi
     borderWidth: 2, // Kenar kalınlığı
     borderRadius: 10, // Köşe yuvarlaklığı
     paddingLeft: 15, // Soldan iç boşluk
@@ -93,41 +86,46 @@ const styles = StyleSheet.create({
     fontSize: 16, // Yazı boyutu
   },
   header: {
-    fontSize: 20, // Başlık yazı boyutu
+    fontSize: 22, // Başlık yazı boyutu
     fontWeight: 'bold', // Kalın yazı
     marginBottom: 15, // Alt boşluk
-    color: '#2e7d32', // Yeşil renk
+    color: '#388e3c', // Açık yeşil renk
   },
   list: {
     paddingBottom: 20, // Liste altına boşluk ekler
   },
   card: {
     backgroundColor: '#c8e6c9', // Kart arka plan rengi
-    borderRadius: 10, // Köşe yuvarlaklığı
-    padding: 12, // İç boşluk
-    marginBottom: 12, // Kartlar arası boşluk
+    borderRadius: 12, // Köşe yuvarlaklığı
+    padding: 16, // İç boşluk
+    marginBottom: 16, // Kartlar arası boşluk
+    flexDirection: 'row', // Yatay düzen
+    alignItems: 'center', // Dikey ortalama
+    elevation: 4, // Hafif gölge efekti
+  },
+  cardContent: {
     flexDirection: 'row', // Yatay düzen
     alignItems: 'center', // Dikey ortalama
   },
   wasteImagePlaceholder: {
-    width: 50, // Görsel yeri genişlik
-    height: 50, // Görsel yeri yükseklik
-    backgroundColor: '#a5d6a7', // Görsel yerinin rengi
-    borderRadius: 8, // Görsel yeri köşe yuvarlaklığı
-    marginRight: 12, // Sağ boşluk
+    width: 60, // Görsel yeri genişlik
+    height: 60, // Görsel yeri yükseklik
+    backgroundColor: '#81c784', // Görsel yerinin rengi
+    borderRadius: 10, // Görsel yerinin yuvarlak köşeleri
+    marginRight: 16, // Sağ boşluk
   },
   wasteInfo: {
     flex: 1, // Genişliği doldur
   },
   name: {
-    fontSize: 16, // Atık adı yazı boyutu
+    fontSize: 18, // Atık adı yazı boyutu
     fontWeight: '500', // Yarı kalın yazı
-    color: '#1b5e20', // Koyu yeşil renk
+    color: '#388e3c', // Yeşil renk
     marginBottom: 4, // Alt boşluk
   },
   category: {
     fontSize: 14, // Kategori yazı boyutu
-    color: '#388e3c', // Açık yeşil renk
+    color: '#2e7d32', // Koyu yeşil renk
   },
   noResults: {
     textAlign: 'center', // Ortalanmış metin

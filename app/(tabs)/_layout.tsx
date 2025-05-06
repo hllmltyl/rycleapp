@@ -1,4 +1,3 @@
-// Geri dönüşüm temalı özel bileşenler ve renkler
 import { HapticTab } from '@/components/HapticTab'; // Haptic geri bildirimli sekme bileşeni
 import { IconSymbol } from '@/components/ui/IconSymbol'; // İkon bileşeni
 import TabBarBackground from '@/components/ui/TabBarBackground'; // Tab bar arka plan bileşeni
@@ -63,9 +62,10 @@ export default function TabLayout() {
         
         // Tab bar etiketi (label) stil ayarları
         tabBarLabelStyle: {
-          fontSize: 12, // Etiket yazı boyutu
+          fontSize: 14, // Etiket yazı boyutu arttırıldı
           fontWeight: '600', // Orta kalınlıkta yazı
           marginBottom: Platform.OS === 'ios' ? 15 : 5, // iOS için alt boşluk
+          color: colors.icon, // Etiket rengi, renk şemasına göre ayarlandı
         },
         
         // Tab bar öğe stili
@@ -89,7 +89,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Kategoriler Sekmesi (opsiyonel) */}
+      {/* Kategoriler Sekmesi */}
       <Tabs.Screen
         name="categories" // Ekran adı
         options={{
@@ -104,7 +104,7 @@ export default function TabLayout() {
         }}
       />
 
-      {/* Favoriler Sekmesi (opsiyonel) */}
+      {/* Favoriler Sekmesi */}
       <Tabs.Screen
         name="favorites" // Ekran adı
         options={{
