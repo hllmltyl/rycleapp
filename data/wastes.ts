@@ -16,6 +16,7 @@ export type WasteCategory = {
   name: string;
   description: string;
   icon: string;
+  color: string;
   wastes: WasteItem[];
 };
 
@@ -26,6 +27,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Plastik",
     description: "Plastik atıklar doğada 400 yıl boyunca çözünmeden kalabilir ve çevreye ciddi zarar verir.",
     icon: "plastic-icon",
+    color: 'rgb(230, 220, 18)',
     wastes: [
       {
         id: "001",
@@ -74,6 +76,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Cam",
     description: "Cam atıklar %100 geri dönüştürülebilir ve tekrar tekrar kullanılabilir.",
     icon: "glass-icon",
+    color: 'rgb(99, 169, 14)',
     wastes: [
       {
         id: "101",
@@ -122,6 +125,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Kağıt",
     description: "Kağıt atıkların geri dönüşümü ormanların korunmasına ve enerji tasarrufuna katkı sağlar.",
     icon: "paper-icon",
+    color: 'rgb(255, 255, 255)',
     wastes: [
       {
         id: "201",
@@ -170,6 +174,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Metal",
     description: "Alüminyum, çelik ve teneke gibi metaller geri dönüştürülebilir ve kaynak tasarrufu sağlar.",
     icon: "metal-icon",
+    color: 'rgb(153, 153, 153)',
     wastes: [
       {
         id: "301",
@@ -218,6 +223,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Elektronik Atık",
     description: "Elektrikli ve elektronik cihazlar uygun şekilde toplanmalıdır.",
     icon: "e-waste-icon",
+    color: 'rgb(9, 73, 141)',
     wastes: [
       {
         id: "401",
@@ -266,6 +272,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Tehlikeli Atık",
     description: "İnsan sağlığına veya çevreye zararlı maddeler özel olarak toplanmalıdır.",
     icon: "hazard-icon",
+    color: 'rgb(168, 12, 12)',
     wastes: [
       {
         id: "501",
@@ -314,6 +321,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Organik Atık",
     description: "Biyolojik olarak parçalanabilir atıklar doğaya kazandırılabilir.",
     icon: "organic-icon",
+    color: 'rgb(131, 83, 20)',
     wastes: [
       {
         id: "601",
@@ -362,6 +370,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Tekstil Atığı",
     description: "Giysi, kumaş ve ayakkabılar geri kazanılabilir.",
     icon: "textile-icon",
+    color: 'rgb(107, 74, 132)',
     wastes: [
       {
         id: "701",
@@ -410,6 +419,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Kompozit Ambalaj",
     description: "Birden fazla malzemeden oluşan ambalajlar (kağıt-plastik-metal karışımı).",
     icon: "composite-icon",
+    color: 'rgb(233, 138, 14)',
     wastes: [
       {
         id: "801",
@@ -458,6 +468,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "Bitkisel Atık Yağ",
     description: "Evsel kızartmalık yağlar çevreye zarar vermeden toplanmalıdır.",
     icon: "oil-icon",
+    color: 'rgba(141, 180, 23, 0.64)',
     wastes: [
       {
         id: "901",
@@ -506,6 +517,7 @@ export const wasteCategories: WasteCategory[] = [
     name: "",
     description: "",
     icon: "",
+    color: 'rgb(255, 255, 255)',
     wastes: [
       {
         id: "",

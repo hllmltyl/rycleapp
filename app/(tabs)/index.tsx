@@ -1,18 +1,18 @@
-// app/(tabs)/index.tsx
-
 import { WasteCategory, WasteItem, wasteCategories } from '@/data/wastes'; // Yeni import
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function Index() {
   const router = useRouter();
+  const [selectedCategoryColor, setSelectedCategoryColor] = useState<string>('#e8f5e9'); // Varsayılan renk (geri dönüşüm yeşili)
 
   // Kategorileri veri kaynağından alıyoruz (artık tipler belli)
   const categories = wasteCategories.map((cat: WasteCategory) => ({
     id: cat.id,
     name: cat.name,
-    icon: cat.icon
+    icon: cat.icon,
+    color: cat.color, // Her kategoriye özel renk
   }));
 
   // Tüm atıkları birleştiriyoruz (tipler belli)
@@ -24,7 +24,7 @@ export default function Index() {
   );
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: selectedCategoryColor }]}> {/* Arka plan rengini kategoriye göre ayarlıyoruz */}
       {/* Arama Butonu - SearchScreen'e yönlendirir */}
       <TouchableOpacity
         style={styles.searchButton}
@@ -43,8 +43,11 @@ export default function Index() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={styles.categoryCard}
-            onPress={() => router.push(`/category/${item.id}`)}
+            style={[styles.categoryCard, { backgroundColor: item.color }]} // Kategoriye özel renk
+            onPress={() => {
+              setSelectedCategoryColor(item.color);  // Kategoriye tıklayınca seçilen rengini duruma ekliyoruz
+              router.push(`/category/${item.id}`);
+            }}
           >
             {/* Kategori ikonunu ekleyeceğiz - şimdilik placeholder */}
             <View style={styles.iconPlaceholder} />
@@ -84,7 +87,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#e8f5e9', // Geri dönüşüm yeşili
     paddingTop: 50,
     paddingHorizontal: 16,
   },
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   categoryCard: {
-    backgroundColor: '#c8e6c9', // Açık yeşil
+    backgroundColor: '#c8e6c9', // Kategori kartının varsayılan rengi
     borderRadius: 10,
     padding: 16,
     marginRight: 10,
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   card: {
-    backgroundColor: '#c8e6c9', // Açık yeşil
+    backgroundColor: '#c8e6c9', // Kategori kartı için varsayılan renk
     borderRadius: 10,
     padding: 12,
     marginBottom: 12,
