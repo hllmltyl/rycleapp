@@ -17,6 +17,8 @@ export type WasteCategory = {
   description: string;
   icon: string;
   color: string;
+  cardColor: string;
+  textColor: string;
   wastes: WasteItem[];
 };
 
@@ -27,7 +29,9 @@ export const wasteCategories: WasteCategory[] = [
     name: "Plastik",
     description: "Plastik atıklar doğada 400 yıl boyunca çözünmeden kalabilir ve çevreye ciddi zarar verir.",
     icon: "plastic-icon",
-    color: 'rgb(230, 220, 18)',
+    color: 'rgb(255, 255, 0)',
+    cardColor: 'rgb(207, 207, 0)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "001",
@@ -77,6 +81,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Cam atıklar %100 geri dönüştürülebilir ve tekrar tekrar kullanılabilir.",
     icon: "glass-icon",
     color: 'rgb(99, 169, 14)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "101",
@@ -126,6 +132,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Kağıt atıkların geri dönüşümü ormanların korunmasına ve enerji tasarrufuna katkı sağlar.",
     icon: "paper-icon",
     color: 'rgb(255, 255, 255)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "201",
@@ -175,6 +183,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Alüminyum, çelik ve teneke gibi metaller geri dönüştürülebilir ve kaynak tasarrufu sağlar.",
     icon: "metal-icon",
     color: 'rgb(153, 153, 153)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "301",
@@ -224,6 +234,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Elektrikli ve elektronik cihazlar uygun şekilde toplanmalıdır.",
     icon: "e-waste-icon",
     color: 'rgb(9, 73, 141)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "401",
@@ -273,6 +285,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "İnsan sağlığına veya çevreye zararlı maddeler özel olarak toplanmalıdır.",
     icon: "hazard-icon",
     color: 'rgb(168, 12, 12)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "501",
@@ -322,6 +336,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Biyolojik olarak parçalanabilir atıklar doğaya kazandırılabilir.",
     icon: "organic-icon",
     color: 'rgb(131, 83, 20)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "601",
@@ -371,6 +387,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Giysi, kumaş ve ayakkabılar geri kazanılabilir.",
     icon: "textile-icon",
     color: 'rgb(107, 74, 132)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "701",
@@ -420,6 +438,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Birden fazla malzemeden oluşan ambalajlar (kağıt-plastik-metal karışımı).",
     icon: "composite-icon",
     color: 'rgb(233, 138, 14)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "801",
@@ -469,6 +489,8 @@ export const wasteCategories: WasteCategory[] = [
     description: "Evsel kızartmalık yağlar çevreye zarar vermeden toplanmalıdır.",
     icon: "oil-icon",
     color: 'rgba(141, 180, 23, 0.64)',
+    cardColor: 'rgb(182, 175, 42)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "901",
@@ -517,7 +539,9 @@ export const wasteCategories: WasteCategory[] = [
     name: "",
     description: "",
     icon: "",
-    color: 'rgb(255, 255, 255)',
+    color: 'rgb(0, 0, 0)',
+    cardColor: 'rgb(0, 0, 0)',
+    textColor: 'rgb(0, 0, 0)',
     wastes: [
       {
         id: "",

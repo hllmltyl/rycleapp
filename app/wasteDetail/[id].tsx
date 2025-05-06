@@ -1,5 +1,3 @@
-// app/wasteDetail/[id].tsx
-
 import { wasteCategories } from '@/data/wastes';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -7,14 +5,14 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 export default function WasteDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
-  // Atık ve kategori bilgisini bulma (daha modern yöntem)
-  const selectedWaste = wasteCategories
-    .flatMap(category => 
-      category.wastes.map(waste => ({ ...waste, categoryName: category.name }))
-    )
-    .find(item => item.id === id);
+  // Seçilen kategori ve atığı buluyoruz
+  const selectedCategory = wasteCategories.find(cat =>
+    cat.wastes.some(waste => waste.id === id)
+  );
 
-  if (!selectedWaste) {
+  const selectedWaste = selectedCategory?.wastes.find(waste => waste.id === id);
+
+  if (!selectedWaste || !selectedCategory) {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Atık Bulunamadı</Text>
@@ -22,14 +20,16 @@ export default function WasteDetailScreen() {
     );
   }
 
+  // Kategoriye özel arka plan rengi veya varsayılan renk
+  const backgroundColor = selectedCategory.color || '#e8f5e9';
+
   return (
     <>
-      {/* Dinamik başlık ayarı - Artık navigasyon çubuğunda atık adı gözükecek */}
       <Stack.Screen 
         options={{ 
           title: selectedWaste.name,
           headerStyle: {
-            backgroundColor: '#e8f5e9',
+            backgroundColor: backgroundColor,
           },
           headerTintColor: '#2e7d32',
           headerTitleStyle: {
@@ -40,28 +40,23 @@ export default function WasteDetailScreen() {
       />
 
       <ScrollView 
-        style={styles.container}
+        style={{ backgroundColor }}
         contentContainerStyle={styles.contentContainer}
       >
-        {/* Kategori bilgisi */}
-        <Text style={styles.category}>Kategori: {selectedWaste.categoryName}</Text>
-        
-        {/* Atık resmi - Sonraki adımda gerçek resim ekleyeceğiz */}
+        <Text style={styles.category}>Kategori: {selectedCategory.name}</Text>
+
         <View style={styles.imagePlaceholder}>
           <Text style={styles.imagePlaceholderText}>Resim Yükleniyor</Text>
         </View>
-        
-        {/* Bilgi bölümleri */}
+
         <WasteInfoSection 
           title="Bu Atık Nedir?"
           content={selectedWaste.description}
         />
-        
         <WasteInfoSection 
           title="Nasıl Geri Dönüştürülür?"
           content={selectedWaste.recycleInfo}
         />
-        
         <WasteInfoSection 
           title="Çevresel Etkisi"
           content={selectedWaste.environmentalImpact}
@@ -71,7 +66,6 @@ export default function WasteDetailScreen() {
   );
 }
 
-// Yardımcı bileşen: Atık bilgi bölümü
 function WasteInfoSection({ title, content }: { title: string; content: string }) {
   return (
     <View style={styles.section}>
@@ -85,6 +79,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8f5e9',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentContainer: {
     padding: 16,
@@ -131,5 +127,4 @@ const styles = StyleSheet.create({
     color: '#c62828',
     marginTop: 40,
   },
-  
 });
