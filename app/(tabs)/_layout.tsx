@@ -1,86 +1,89 @@
-// app/(tabs)/_layout.tsx
+// Geri dönüşüm temalı özel bileşenler ve renkler
+import { HapticTab } from '@/components/HapticTab'; // Haptic geri bildirimli sekme bileşeni
+import { IconSymbol } from '@/components/ui/IconSymbol'; // İkon bileşeni
+import TabBarBackground from '@/components/ui/TabBarBackground'; // Tab bar arka plan bileşeni
+import { useColorScheme } from '@/hooks/useColorScheme'; // Renk şeması yönetimi
+import { Tabs } from 'expo-router'; // Expo Router için Tabs bileşeni
+import React from 'react'; // React kütüphanesini içe aktarır
+import { Platform } from 'react-native'; // Platform özelliklerini kullanmak için React Native'den import edilir
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
-
-// Geri dönüşüm teması için özel renk paleti
+// Geri dönüşüm temalı renk paletini tanımlar
 const RecyclingColors = {
   light: {
-    tint: '#2e7d32', // Koyu yeşil
-    tabBarBackground: '#e8f5e9', // Açık yeşil arkaplan
-    icon: '#1b5e20', // İkon rengi
+    tint: '#2e7d32', // Koyu yeşil renk (aktif sekme rengi)
+    tabBarBackground: '#e8f5e9', // Açık yeşil renk (tab bar arka planı)
+    icon: '#1b5e20', // Koyu yeşil ikon rengi
   },
   dark: {
     tint: '#81c784', // Açık yeşil (karanlık mod)
-    tabBarBackground: '#1b5e20', // Koyu yeşil arkaplan
-    icon: '#e8f5e9', // İkon rengi
+    tabBarBackground: '#1b5e20', // Koyu yeşil (karanlık mod tab bar arka planı)
+    icon: '#e8f5e9', // Açık yeşil ikon rengi (karanlık mod)
   },
 };
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const colors = RecyclingColors[colorScheme ?? 'light'];
+  const colorScheme = useColorScheme(); // Renk şemasını alır (light veya dark)
+  const colors = RecyclingColors[colorScheme ?? 'light']; // Aktif renk paletini seçer (light veya dark)
 
   return (
     <Tabs
       screenOptions={{
-        // Temel ayarlar
-        tabBarActiveTintColor: colors.tint,
-        tabBarInactiveTintColor: '#a5d6a7', // Pasif ikon rengi
-        headerShown: false, // Üst başlığı gizle (özel başlık kullanacağız)
+        // Tab bar renkleri ve stilleri
+        tabBarActiveTintColor: colors.tint, // Aktif sekme rengi
+        tabBarInactiveTintColor: '#a5d6a7', // Pasif sekme rengi
+        headerShown: false, // Üst başlığı gizler, özel başlık kullanılacak
         
-        // Haptic feedback ayarları
+        // Sekme tıklama geri bildirimi (HapticFeedback)
         tabBarButton: HapticTab,
         
-        // TabBar görünüm ayarları
+        // Tab bar arka plan bileşeni
         tabBarBackground: () => (
           <TabBarBackground 
-            color={colors.tabBarBackground} 
-            opacity={0.95}
+            color={colors.tabBarBackground} // Tab bar'ın arka plan rengi
+            opacity={0.95} // Arka plan opaklık değeri
           />
         ),
+        
+        // Tab bar stili
         tabBarStyle: {
           ...Platform.select({
             ios: {
-              position: 'absolute',
-              borderTopWidth: 0, // Üst çizgiyi kaldır
-              elevation: 0, // Android gölgesini kaldır
+              position: 'absolute', // Tab bar'ın konumunu mutlak yapar (iOS)
+              borderTopWidth: 0, // Üst çizgiyi kaldırır (iOS)
+              elevation: 0, // Android için gölgeyi kaldırır
             },
             android: {
-              elevation: 0,
-              borderTopWidth: 0,
+              elevation: 0, // Android'teki gölgeyi kaldırır
+              borderTopWidth: 0, // Üst çizgiyi kaldırır (Android)
             },
           }),
-          height: Platform.OS === 'ios' ? 80 : 60, // Platforma göre yükseklik
-          paddingBottom: Platform.OS === 'ios' ? 20 : 10, // iPhone çentikleri için
+          height: Platform.OS === 'ios' ? 80 : 60, // Yükseklik, iOS ve Android için farklı
+          paddingBottom: Platform.OS === 'ios' ? 20 : 10, // iOS için çentiklere uyum sağlamak için alt boşluk
         },
         
-        // İkon ve label ayarları
+        // Tab bar etiketi (label) stil ayarları
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '600',
-          marginBottom: Platform.OS === 'ios' ? 15 : 5,
+          fontSize: 12, // Etiket yazı boyutu
+          fontWeight: '600', // Orta kalınlıkta yazı
+          marginBottom: Platform.OS === 'ios' ? 15 : 5, // iOS için alt boşluk
         },
+        
+        // Tab bar öğe stili
         tabBarItemStyle: {
-          paddingVertical: 5,
+          paddingVertical: 5, // Dikeyde iç boşluk
         },
       }}
     >
       {/* Ana Sayfa Sekmesi */}
       <Tabs.Screen
-        name="index"
+        name="index" // Ekran adı
         options={{
-          title: 'Keşfet',
+          title: 'Keşfet', // Sekme başlığı
           tabBarIcon: ({ color, focused }) => (
             <IconSymbol 
               size={28} 
-              name={focused ? 'leaf.fill' : 'leaf'} 
-              color={color} 
+              name={focused ? 'leaf.fill' : 'leaf'} // İkon değişir: aktifse dolu yaprak, değilse boş yaprak
+              color={color} // Sekme ikonunun rengi
             />
           ),
         }}
@@ -88,14 +91,14 @@ export default function TabLayout() {
 
       {/* Kategoriler Sekmesi (opsiyonel) */}
       <Tabs.Screen
-        name="categories"
+        name="categories" // Ekran adı
         options={{
-          title: 'Kategoriler',
+          title: 'Kategoriler', // Sekme başlığı
           tabBarIcon: ({ color, focused }) => (
             <IconSymbol 
               size={28} 
-              name={focused ? 'square.grid.2x2.fill' : 'square.grid.2x2'} 
-              color={color} 
+              name={focused ? 'square.grid.2x2.fill' : 'square.grid.2x2'} // İkon değişir: aktifse dolu kare ızgara, değilse boş
+              color={color} // Sekme ikonunun rengi
             />
           ),
         }}
@@ -103,14 +106,14 @@ export default function TabLayout() {
 
       {/* Favoriler Sekmesi (opsiyonel) */}
       <Tabs.Screen
-        name="favorites"
+        name="favorites" // Ekran adı
         options={{
-          title: 'Favoriler',
+          title: 'Favoriler', // Sekme başlığı
           tabBarIcon: ({ color, focused }) => (
             <IconSymbol 
               size={28} 
-              name={focused ? 'heart.fill' : 'heart'} 
-              color={color} 
+              name={focused ? 'heart.fill' : 'heart'} // İkon değişir: aktifse dolu kalp, değilse boş
+              color={color} // Sekme ikonunun rengi
             />
           ),
         }}

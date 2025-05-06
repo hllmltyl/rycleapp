@@ -165,7 +165,6 @@ export const wasteCategories: WasteCategory[] = [
       },
     ],
   },
-  // Metal Atıklar
   {
     id: "metal",
     name: "Metal",
@@ -214,8 +213,6 @@ export const wasteCategories: WasteCategory[] = [
       }
     ]
   },
-
-  // Elektronik Atık (E-Atık)
   {
     id: "elektronik",
     name: "Elektronik Atık",
@@ -264,8 +261,6 @@ export const wasteCategories: WasteCategory[] = [
       }
     ]
   },
-
-  // Tehlikeli Atıklar
   {
     id: "tehlikeli",
     name: "Tehlikeli Atık",
@@ -314,8 +309,6 @@ export const wasteCategories: WasteCategory[] = [
       }
     ]
   },
-
-  // Organik Atıklar
   {
     id: "organik",
     name: "Organik Atık",
@@ -364,8 +357,6 @@ export const wasteCategories: WasteCategory[] = [
       }
     ]
   },
-
-  // Tekstil Atıkları
   {
     id: "tekstil",
     name: "Tekstil Atığı",
@@ -414,8 +405,6 @@ export const wasteCategories: WasteCategory[] = [
       }
     ]
   },
-
-  // Kompozit Ambalajlar
   {
     id: "kompozit",
     name: "Kompozit Ambalaj",
@@ -464,8 +453,6 @@ export const wasteCategories: WasteCategory[] = [
       }
     ]
   },
-
-  // Bitkisel Atık Yağ
   {
     id: "yag",
     name: "Bitkisel Atık Yağ",
